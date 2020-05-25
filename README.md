@@ -40,27 +40,34 @@ For train.csv and test.csv, they all contains following data fields:
 - Promo2Since[Year/Week]: describes the year and calendar week when the store started participating in Promo2
 - PromoInterval: describes the consecutive intervals Promo2 is started, naming the months the promotion is started anew. E.g. "Feb,May,Aug,Nov" means each round starts in February, May, August, November of any given year for that store
 
+Generally, there are 1115 stores in total. The data provided including 1017209 log, covering more than 3 years of data. The train.csv data description shown as below:
+
+![](img/train_desc.png)
 
 ### Solution Statement
 The solution will be first analyze the data, cleanning data with appropriate method and deicde a good way to engineering it. Then normalize the data if neccassary. Data if further divided in to training and validation sets for next step training. After training, the result is submit to kaggle.
 
-As the model is not decided yet, but highly liekly to be XGBoost, more detail is not provided yet. However, a hyper-parameters tuning process is planned to have better result of final testing.
+As the model is not decided yet, but highly likely to be XGBoost or RNN model. More detail is not provided yet. However, a hyper-parameters tuning process is planned to have better result of final testing.
 
 
 ### Benchmark Model
 Cross validation will be adopted to avoid over-fitting. KFold will be introduce to make most use of data. Learning curve technique will also used to avoid complex model. As the final evaluation metrics used is RMSPE, during benchmarking, same benchmark metrics will be used to decide the performance of each model configuration.
 
+As this task is also a Kaggle competition, a leaderboard position is preferred. However, I decided not to use leaderboard position as a benchmark result. This is because I want to better explorer model usage, instead of find a best model and copy what's already on the board.
+
 
 ### Evaluation Metrics
 Submissions are evaluated on the Root Mean Square Percentage Error (RMSPE). The RMSPE is calculated as
 
-RMSPE= 1/n * (∑(yi−y^i/yi)^2)
+![](img/equation.png)
 
 where y_i denotes the sales of a single store on a single day and y^i denotes the corresponding prediction. Any day and store with 0 sales is ignored in scoring.
 
+Compared with general Root Mean Square Error, RMSPE further taking into account the divergence compare with the original real value. By doing so, the RMSPE value is meaningful and descript the error relationship with the correct label.
+
 
 ### Project Design
-The project will be deviced into following sections.
+The project will be divided into following sections.
 #### Features Study
 In this section, input data sets will be analyzed to understand all the data in depth. Data engineering approach is also analyze and decide during this section.
 
@@ -73,3 +80,7 @@ Model will be create and fit. Hyper-parameters tuning will also involved to gene
 #### Predict for Test and Submission File Generating
 Final result is generated here and submission file is also created. 
 
+### Reference
+[Kaggle competition: Rossmann Store Sales](https://www.kaggle.com/c/rossmann-store-sales/overview)
+[Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+[Time Series Prediction using LSTM with PyTorch in Python](https://stackabuse.com/time-series-prediction-using-lstm-with-pytorch-in-python/)
